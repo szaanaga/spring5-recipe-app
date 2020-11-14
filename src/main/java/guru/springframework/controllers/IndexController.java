@@ -15,8 +15,25 @@ import java.util.Optional;
 @Controller
 public class IndexController {
 
-    @RequestMapping({"", "/", "/index"})
+	private final CategoryRepository categoryRepository;
+	private final UnitOfMeasureRepository unitOfMeasureRepository;
+	
+	
+    public IndexController(CategoryRepository categoryRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
+		this.categoryRepository = categoryRepository;
+		this.unitOfMeasureRepository = unitOfMeasureRepository;
+	}
+
+
+
+	@RequestMapping({"", "/", "/index"})
     public String getIndexPage(){
+		Optional<Category> categoryOptional = categoryRepository.findByDescription("American");
+		Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
+		
+		System.out.println("Category Id is:" + categoryOptional.get().getId());
+		System.out.println("Unit of measure Id is:" + unitOfMeasureOptional.get().getId());
+		
         return "index";
     }
 }
